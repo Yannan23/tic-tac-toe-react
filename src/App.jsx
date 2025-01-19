@@ -44,6 +44,9 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true)
   const winner = calculateWinner(squares);
   let status;
+
+  const [snapshots, setSnapshots] = useState([{ squares, xIsNext }])
+
   if (winner) {
     status = 'Winner: ' + winner;
   } else {
@@ -62,24 +65,42 @@ export default function Board() {
     }
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
+    setSnapshots([...snapshots, { squares: nextSquares, xIsNext: !xIsNext }])
+  }
+
+  const jumpToSnapshot = (n) => {
+    const { squares, nextSquare } = snapshots[n];
+    setSquares(squares);
+    setXIsNext(nextSquare);
   }
 
   return (
     <>
-      <div className='status'>{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+      <div>
+        <div className='status'>{status}</div>
+        <div className="board-row">
+          <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+          <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+          <Square value={squares[2]} onSquareClick={() => handleClick(2)} />      </div>
+        <div className="board-row">
+          <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+          <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+          <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+        </div>
+        <div className="board-row">
+          <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+          <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+          <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        </div>
       </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      <div>
+        <ol>
+          {snapshots.map((snapshot, index) => (
+            <li key={index}>
+              <button onClick={() => jumpToSnapshot(index)}>{index ? `Jump to ${index}` : `From the start`}</button>
+            </li>
+          ))}
+        </ol>
       </div>
     </>
   )
