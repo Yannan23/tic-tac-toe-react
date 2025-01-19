@@ -1,0 +1,22 @@
+.square {
+  /* width: 40px;
+  height: 40px; */
+  background-color: rgb(255, 255, 255);
+  color: rgb(12, 11, 11);
+  border: 1px solid rgb(49, 49, 49);
+  line-height: 34px;
+  height: 34px;
+  text-align: center;
+  font-size: 24px;
+  margin-top: -3px;
+  margin-right: -2px;
+  width: 34px;
+  font-weight: bold;
+  float: left;
+}
+
+.board-row::after {
+  clear: both;
+  content: "";
+  display: table;
+}
